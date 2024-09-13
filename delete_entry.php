@@ -8,13 +8,13 @@ $databaseName = "controlPanelPhp";
 $conn = mysqli_connect($servername, $username, $password, $databaseName);
 
 
-function removeClient($conn, $order_id)
+function removeClient($conn, $id, $table)
 {
-    $stmt = $conn->prepare("DELETE FROM clients WHERE id = ?");
-    $stmt->bind_param("i", $order_id);
+    $stmt = $conn->prepare("DELETE FROM " . $table . " WHERE id = ?");
+    $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
-        echo "Client removed successfully";
+        echo "Item ID: " . $id . " from " . $table . " removed successfully";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -24,8 +24,9 @@ function removeClient($conn, $order_id)
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $order_id = $_POST['client_id'];
-    removeClient($conn, $order_id);
+    $id = $_POST['id'];
+    $table = $_POST['table'];
+    removeClient($conn, $id, $table);
 }
 ?>
 <!DOCTYPE html>

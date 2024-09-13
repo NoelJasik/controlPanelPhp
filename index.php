@@ -81,12 +81,14 @@ echo "Connected successfully";
                 <td><?php echo $row['last_name']; ?></td>
                 <td><?php echo $row['email']; ?></td>
                 <td><?php echo $row['telephone']; ?></td>
-                <form action="delete_client.php" method="post">
-                    <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
+                <form action="delete_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="clients">
                     <td><input type="submit" value="Delete"></td>
                 </form>
-                <form action="update_client.php" method="post">
-                    <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
+                <form action="update_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="clients">
                     <td><input type="submit" value="Edit"></td>
                 </form>
             </tr>
@@ -107,6 +109,16 @@ echo "Connected successfully";
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['last_name']; ?></td>
                 <td><?php echo $tableRoles[$row['role_id'] - 1]['name'] ?></td>
+                <form action="delete_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="employees">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                <form action="update_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="employees">
+                    <td><input type="submit" value="Edit"></td>
+                </form>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -123,6 +135,16 @@ echo "Connected successfully";
                 <td><?php echo $row['id']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['hourly_wage']; ?></td>
+                <form action="delete_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="roles">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                <form action="update_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="roles">
+                    <td><input type="submit" value="Edit"></td>
+                </form>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -141,6 +163,16 @@ echo "Connected successfully";
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['price']; ?></td>
                 <td><?php echo $row['service_time']; ?></td>
+                <form action="delete_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="services">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                <form action="update_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="services">
+                    <td><input type="submit" value="Edit"></td>
+                </form>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -167,6 +199,16 @@ echo "Connected successfully";
                 <form action="complete_order.php" method="post">
                     <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
                     <td><input type="submit" value="Complete"></td>
+                </form>
+                <form action="delete_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="orders">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                <form action="update_entry.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="table" value="orders">
+                    <td><input type="submit" value="Edit"></td>
                 </form>
             </tr>
         <?php endif; endforeach; ?>
