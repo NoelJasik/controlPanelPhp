@@ -140,21 +140,21 @@ echo "Connected successfully";
     <h2>Orders</h2>
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>Employee ID</th>
-            <th>Client ID</th>
-            <th>Service ID</th>
+            <th>Index</th>
+            <th>Employee</th>
+            <th>Client</th>
+            <th>Service</th>
             <th>Date</th>
-            <th>Completed</th>
+            <th></th>
         </tr>
         <?php foreach ($tableOrders as $row): 
             if($row['completed'] == 0) :
             ?>
             <tr>
                 <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['employee_id']; ?></td>
-                <td><?php echo $row['client_id']; ?></td>
-                <td><?php echo $row['service_id']; ?></td>
+                <td><?php echo $tableEmployees[$row['employee_id'] - 1]['name'] . ' ' . $tableEmployees[$row['employee_id'] - 1]['last_name']; ?></td>
+                <td><?php echo $tableClients[$row['client_id'] - 1]['name'] . ' ' . $tableClients[$row['client_id'] - 1]['last_name']; ?></td>
+                <td><?php echo $tableServices[$row['service_id'] - 1]['name']; ?></td>
                 <td><?php echo $row['date']; ?></td>
                 <form action="complete_order.php" method="post">
                     <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
