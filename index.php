@@ -81,6 +81,14 @@ echo "Connected successfully";
                 <td><?php echo $row['last_name']; ?></td>
                 <td><?php echo $row['email']; ?></td>
                 <td><?php echo $row['telephone']; ?></td>
+                <form action="delete_client.php" method="post">
+                    <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                <form action="update_client.php" method="post">
+                    <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
+                    <td><input type="submit" value="Edit"></td>
+                </form>
             </tr>
         <?php endforeach; ?>
     </table>
