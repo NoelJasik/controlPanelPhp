@@ -87,12 +87,58 @@ main {
   border-width: 1px;
   border-color: var(--jet);
 }
+.table-box table td .btn {
+  width: 100%;
+}
 .table-box h2 {
   background-color: var(--imperial-red);
   color: var(--seashell);
   padding: 1rem;
   font-size: 1.5rem;
   text-align: center;
+  width: 100%;
+}
+
+.create-order form {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 1rem;
+  gap: 1rem;
+}
+.create-order form .form-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.create-order form .form-box label {
+  font-weight: bold;
+}
+.create-order form .form-box input {
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.create-order form .form-box select {
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.create-order form .form-box .btn {
+  width: 100%;
+}
+.create-order form .form-box .client-info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+}
+.create-order form .form-box .client-info-box .btn {
   width: 100%;
 }
 

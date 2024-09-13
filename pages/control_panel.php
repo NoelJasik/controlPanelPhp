@@ -14,10 +14,11 @@ $conn = mysqli_connect($servername, $username, $password, $databaseName);
 if (!$conn) {
     die("Połączenie nieudane: " . mysqli_connect_error());
 }
+
 $queries = [
     'clients' => "SELECT * FROM clients",
-    'employees' => "SELECT * FROM employees",
-    'orders' => "SELECT * FROM orders",
+    'employees' => "SELECT employees.*, roles.name as role_name FROM employees INNER JOIN roles ON employees.role_id = roles.id",
+    'orders' => "SELECT orders.*, employees.name as employee_name, employees.last_name as employee_last_name, clients.name as client_name, clients.last_name as client_last_name, services.name as service_name FROM orders INNER JOIN employees ON orders.employee_id = employees.id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN services ON orders.service_id = services.id",
     'roles' => "SELECT * FROM roles",
     'services' => "SELECT * FROM services"
 ];
@@ -101,7 +102,7 @@ $conn->close();
                     <tr>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['last_name']; ?></td>
-                        <td><?php echo $tableRoles[$row['role_id'] - 1]['name'] ?></td>
+                        <td><?php echo $row['role_name']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -157,7 +158,7 @@ $conn->close();
             <h2>Zamówienia</h2>
             <table>
                 <tr>
-                    <th>Numer zamówienia</th>
+                    <th>Lp.</th>
                     <th>Pracownik</th>
                     <th>Klient</th>
                     <th>Usługa</th>
@@ -171,9 +172,9 @@ $conn->close();
                 ?>
                         <tr>
                             <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $tableEmployees[$row['employee_id'] - 1]['name'] . ' ' . $tableEmployees[$row['employee_id'] - 1]['last_name']; ?></td>
-                            <td><?php echo $tableClients[$row['client_id'] - 1]['name'] . ' ' . $tableClients[$row['client_id'] - 1]['last_name']; ?></td>
-                            <td><?php echo $tableServices[$row['service_id'] - 1]['name']; ?></td>
+                            <td><?php echo $row['employee_name'] . ' ' . $row['employee_last_name']; ?></td>
+                            <td><?php echo $row['client_name'] . ' ' . $row['client_last_name']; ?></td>
+                            <td><?php echo $row['service_name']; ?></td>
                             <td><?php echo $row['date']; ?></td>
                             <form action="complete_order.php" method="post">
                                 <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
@@ -194,72 +195,84 @@ $conn->close();
                 endforeach; ?>
             </table>
         </div>
-        <div class="table-box">
+        <div class="table-box create-order">
             <h2>Utwórz nowe zamówienie</h2>
             <form action="create_order.php" method="post">
-                <label for="employee_id">Pracownik:</label>
-                <select name="employee_id" id="employee_id">
-                    <?php foreach ($tableEmployees as $employee): ?>
-                        <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name'] . ' ' . $employee['last_name']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <br>
 
-                <label for="toggle_client">Użyj istniejącego klienta:</label>
-                <input type="checkbox" id="toggle_client" name="toggle_client" onclick="toggleClientFields()">
-                <br>
-
-                <div id="existing_client_fields" style="display: none;">
-                    <label for="client_id">Klient:</label>
-                    <select name="client_id" id="client_id">
-                        <?php foreach ($tableClients as $client): ?>
-                            <option value="<?php echo $client['id']; ?>"><?php echo $client['name'] . ' ' . $client['last_name']; ?></option>
+                <div class="form-box">
+                    <label for="employee_id">Pracownik:</label>
+                    <select name="employee_id" id="employee_id" class="btn">
+                        <?php foreach ($tableEmployees as $employee): ?>
+                            <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name'] . ' ' . $employee['last_name']; ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <br>
+
+                    <label for="service_id">Usługa:</label>
+                    <select name="service_id" id="service_id" class="btn">
+                        <?php foreach ($tableServices as $service): ?>
+                            <option value="<?php echo $service['id']; ?>"><?php echo $service['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+
+                    <label for="date">Data:</label>
+                    <input type="date" name="date" id="date" class="btn">
+
+                    <label for="time">Czas:</label>
+                    <input type="time" name="time" id="time" class="btn">
                 </div>
 
-                <div id="new_client_fields">
-                    <label for="client_name">Imię:</label>
-                    <input type="text" name="client_name" id="client_name"><br>
+                <div class="form-box">
 
-                    <label for="client_last_name">Nazwisko:</label>
-                    <input type="text" name="client_last_name" id="client_last_name"><br>
 
-                    <label for="client_email">Email:</label>
-                    <input type="email" name="client_email" id="client_email"><br>
+                    <div id="existing_client_fields" class="client-info-box" style="display: flex;">
+                        <label for="client_id">Klient:</label>
+                        <select name="client_id" id="client_id" class="btn">
+                            <?php foreach ($tableClients as $client): ?>
+                                <option value="<?php echo $client['id']; ?>"><?php echo $client['name'] . ' ' . $client['last_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
 
-                    <label for="client_telephone">Telefon:</label>
-                    <input type="text" name="client_telephone" id="client_telephone"><br>
+                    </div>
+
+                    <div id="new_client_fields" class="client-info-box" style="display: none">
+                        <label for="client_name">Imię:</label>
+                        <input type="text" name="client_name" id="client_name" class="btn">
+
+                        <label for="client_last_name">Nazwisko:</label>
+                        <input type="text" name="client_last_name" id="client_last_name" class="btn">
+
+                        <label for="client_email">Email:</label>
+                        <input type="email" name="client_email" id="client_email" class="btn">
+
+                        <label for="client_telephone">Telefon:</label>
+                        <input type="text" name="client_telephone" id="client_telephone" class="btn">
+
+                    </div>
+
+
+
+
                 </div>
-
-                <script>
-                    function toggleClientFields() {
-                        var toggle = document.getElementById('toggle_client').checked;
-                        document.getElementById('existing_client_fields').style.display = toggle ? 'block' : 'none';
-                        document.getElementById('new_client_fields').style.display = toggle ? 'none' : 'block';
-                    }
-                </script>
-
-                <label for="service_id">Usługa:</label>
-                <select name="service_id" id="service_id">
-                    <?php foreach ($tableServices as $service): ?>
-                        <option value="<?php echo $service['id']; ?>"><?php echo $service['name']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <br>
-
-                <label for="date">Data:</label>
-                <input type="date" name="date" id="date"><br>
-
-                <label for="time">Czas:</label>
-                <input type="time" name="time" id="time"><br>
-
-                <input type="submit" value="Utwórz zamówienie">
+                <div class="form-box">
+                <label for="toggle_client">Użyj istniejącego klienta: <input type="checkbox" id="toggle_client" name="toggle_client" onclick="toggleClientFields()">
+                </label>
+                <input type="submit" value="Utwórz zamówienie" class="btn">
+            </div>
             </form>
+ 
         </div>
-    </main>
 
+    </main>
+    <script>
+        function toggleClientFields() {
+            var toggle = document.getElementById('toggle_client').checked;
+            document.getElementById('existing_client_fields').style.display = toggle ? 'flex' : 'none';
+            document.getElementById('new_client_fields').style.display = toggle ? 'none' : 'flex';
+        }
+
+        toggleClientFields();
+    </script>
 </body>
 
 </html>
