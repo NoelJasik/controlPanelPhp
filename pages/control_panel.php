@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn = mysqli_connect($servername, $username, $password, $databaseName);
 
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Połączenie nieudane: " . mysqli_connect_error());
 }
 $queries = [
     'clients' => "SELECT * FROM clients",
@@ -53,12 +53,10 @@ while ($row = $resultServices->fetch_assoc()) {
     $tableServices[] = $row;
 }
 
-
-
 $conn->close();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="UTF-8">
@@ -69,195 +67,199 @@ $conn->close();
 
 <body>
     <header>
-    <a href="../index.php">Wyloguj się</a>
-    <h2>Panel Sterowania</h2>
+        <h1>Panel Sterowania</h1>
+        <a class="btn" href="../index.php">Wyloguj się</a>
     </header>
-    <h2>Klienci</h2>
-    <table border="1">
-        <tr>
-           
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Email</th>
-            <th>Nr. telefonu</th>
-        </tr>
-        <?php foreach ($tableClients as $row): ?>
-            <tr>
-              
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['last_name']; ?></td>
-                <td><?php echo $row['email']; ?></td>
-                <td><?php echo $row['telephone']; ?></td>
-                <form action="delete_entry.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                    <input type="hidden" name="table" value="clients">
-                    <td><input type="submit" value="Delete"></td>
-                </form>
-                <form action="update_entry.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                    <input type="hidden" name="table" value="clients">
-                    <td><input type="submit" value="Edit"></td>
-                </form>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+    <main>
+        <div class="table-box">
+            <h2>Usługi</h2>
+            <table>
+                <tr>
+                    <th>Usługa</th>
+                    <th>Cena</th>
+                    <th>Czas usługi</th>
+                </tr>
+                <?php foreach ($tableServices as $row): ?>
+                    <tr>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['price']; ?></td>
+                        <td><?php echo $row['service_time']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
 
-    <h2>Employees</h2>
+        <div class="table-box">
+            <h2>Pracownicy</h2>
+            <table>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Rola</th>
+                </tr>
+                <?php foreach ($tableEmployees as $row): ?>
+                    <tr>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['last_name']; ?></td>
+                        <td><?php echo $tableRoles[$row['role_id'] - 1]['name'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+        <!-- 
+    <h2>Role</h2>
     <table border="1">
         <tr>
-          
-            <th>Name</th>
-            <th>Last name</th>
-            <th>Role</th>
-        </tr>
-        <?php foreach ($tableEmployees as $row): ?>
-            <tr>
-               
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['last_name']; ?></td>
-                <td><?php echo $tableRoles[$row['role_id'] - 1]['name'] ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<!-- 
-    <h2>Roles</h2>
-    <table border="1">
-        <tr>
-   
-            <th>Role</th>
-            <th>Salary</th>
+            <th>Rola</th>
+            <th>Wynagrodzenie</th>
         </tr>
         <?php foreach ($tableRoles as $row): ?>
             <tr>
-               
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['hourly_wage']; ?></td>
                 </form>
             </tr>
         <?php endforeach; ?>
     </table> -->
-
-    <h2>Services</h2>
-    <table border="1">
-        <tr>
-        
-            <th>Service</th>
-            <th>Price</th>
-            <th>Service time</th>
-        </tr>
-        <?php foreach ($tableServices as $row): ?>
-            <tr>
-               
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['price']; ?></td>
-                <td><?php echo $row['service_time']; ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-
-    <h2>Orders</h2>
-    <table border="1">
-        <tr>
-            <th>Order Number</th>
-            <th>Employee</th>
-            <th>Client</th>
-            <th>Service</th>
-            <th>Date</th>
-        </tr>
-        <?php foreach ($tableOrders as $row): 
-            if($row['completed'] == 0) :
-            ?>
-            <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $tableEmployees[$row['employee_id'] - 1]['name'] . ' ' . $tableEmployees[$row['employee_id'] - 1]['last_name']; ?></td>
-                <td><?php echo $tableClients[$row['client_id'] - 1]['name'] . ' ' . $tableClients[$row['client_id'] - 1]['last_name']; ?></td>
-                <td><?php echo $tableServices[$row['service_id'] - 1]['name']; ?></td>
-                <td><?php echo $row['date']; ?></td>
-                <form action="complete_order.php" method="post">
-                    <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
-                    <td><input type="submit" value="Complete"></td>
-                </form>
-                <form action="delete_entry.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                    <input type="hidden" name="table" value="orders">
-                    <td><input type="submit" value="Delete"></td>
-                </form>
-                <form action="update_entry.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                    <input type="hidden" name="table" value="orders">
-                    <td><input type="submit" value="Edit"></td>
-                </form>
-            </tr>
-        <?php endif; endforeach; ?>
-    </table>
-
-    <h2>Create New Order</h2>
-    <form action="create_order.php" method="post">
-        <label for="employee_id">Employee:</label>
-        <select name="employee_id" id="employee_id">
-            <?php foreach ($tableEmployees as $employee): ?>
-                <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name'] . ' ' . $employee['last_name']; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <br>
-
-        <label for="toggle_client">Use Existing Client:</label>
-        <input type="checkbox" id="toggle_client" name="toggle_client" onclick="toggleClientFields()">
-        <br>
-
-        <div id="existing_client_fields" style="display: none;">
-            <label for="client_id">Client:</label>
-            <select name="client_id" id="client_id">
-            <?php foreach ($tableClients as $client): ?>
-                <option value="<?php echo $client['id']; ?>"><?php echo $client['name'] . ' ' . $client['last_name']; ?></option>
-            <?php endforeach; ?>
-            </select>
-            <br>
+        <div class="table-box">
+            <h2>Klienci</h2>
+            <table>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Email</th>
+                    <th>Nr. telefonu</th>
+                    <th>Usuń</th>
+                    <th>Edytuj</th>
+                </tr>
+                <?php foreach ($tableClients as $row): ?>
+                    <tr>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['last_name']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['telephone']; ?></td>
+                        <form action="delete_entry.php" method="post">
+                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                            <input type="hidden" name="table" value="clients">
+                            <td><input type="submit" value="Usuń" class="btn"></td>
+                        </form>
+                        <form action="update_entry.php" method="post">
+                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                            <input type="hidden" name="table" value="clients">
+                            <td><input type="submit" value="Edytuj" class="btn"></td>
+                        </form>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
         </div>
 
-        <div id="new_client_fields">
-            <label for="client_name">Name:</label>
-            <input type="text" name="client_name" id="client_name" required><br>
-
-            <label for="client_last_name">Last Name:</label>
-            <input type="text" name="client_last_name" id="client_last_name" required><br>
-
-            <label for="client_email">Email:</label>
-            <input type="email" name="client_email" id="client_email" required><br>
-
-            <label for="client_telephone">Telephone:</label>
-            <input type="text" name="client_telephone" id="client_telephone" required><br>
+        <div class="table-box">
+            <h2>Zamówienia</h2>
+            <table>
+                <tr>
+                    <th>Numer zamówienia</th>
+                    <th>Pracownik</th>
+                    <th>Klient</th>
+                    <th>Usługa</th>
+                    <th>Data</th>
+                    <th>Zakończ</th>
+                    <th>Usuń</th>
+                    <th>Edytuj</th>
+                </tr>
+                <?php foreach ($tableOrders as $row):
+                    if ($row['completed'] == 0) :
+                ?>
+                        <tr>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $tableEmployees[$row['employee_id'] - 1]['name'] . ' ' . $tableEmployees[$row['employee_id'] - 1]['last_name']; ?></td>
+                            <td><?php echo $tableClients[$row['client_id'] - 1]['name'] . ' ' . $tableClients[$row['client_id'] - 1]['last_name']; ?></td>
+                            <td><?php echo $tableServices[$row['service_id'] - 1]['name']; ?></td>
+                            <td><?php echo $row['date']; ?></td>
+                            <form action="complete_order.php" method="post">
+                                <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+                                <td><input type="submit" value="Zakończ" class="btn"></td>
+                            </form>
+                            <form action="delete_entry.php" method="post">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                <input type="hidden" name="table" value="orders">
+                                <td><input type="submit" value="Usuń" class="btn"></td>
+                            </form>
+                            <form action="update_entry.php" method="post">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                <input type="hidden" name="table" value="orders">
+                                <td><input type="submit" value="Edytuj" class="btn"></td>
+                            </form>
+                        </tr>
+                <?php endif;
+                endforeach; ?>
+            </table>
         </div>
+        <div class="table-box">
+            <h2>Utwórz nowe zamówienie</h2>
+            <form action="create_order.php" method="post">
+                <label for="employee_id">Pracownik:</label>
+                <select name="employee_id" id="employee_id">
+                    <?php foreach ($tableEmployees as $employee): ?>
+                        <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name'] . ' ' . $employee['last_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
 
-        <script>
-            function toggleClientFields() {
-            var toggle = document.getElementById('toggle_client').checked;
-            document.getElementById('existing_client_fields').style.display = toggle ? 'block' : 'none';
-            document.getElementById('new_client_fields').style.display = toggle ? 'none' : 'block';
-            }
-        </script>
+                <label for="toggle_client">Użyj istniejącego klienta:</label>
+                <input type="checkbox" id="toggle_client" name="toggle_client" onclick="toggleClientFields()">
+                <br>
 
+                <div id="existing_client_fields" style="display: none;">
+                    <label for="client_id">Klient:</label>
+                    <select name="client_id" id="client_id">
+                        <?php foreach ($tableClients as $client): ?>
+                            <option value="<?php echo $client['id']; ?>"><?php echo $client['name'] . ' ' . $client['last_name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <br>
+                </div>
 
-        <label for="service_id">Service:</label>
-        <select name="service_id" id="service_id">
-            <?php foreach ($tableServices as $service): ?>
-                <option value="<?php echo $service['id']; ?>"><?php echo $service['name']; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <br>
+                <div id="new_client_fields">
+                    <label for="client_name">Imię:</label>
+                    <input type="text" name="client_name" id="client_name"><br>
 
+                    <label for="client_last_name">Nazwisko:</label>
+                    <input type="text" name="client_last_name" id="client_last_name"><br>
 
+                    <label for="client_email">Email:</label>
+                    <input type="email" name="client_email" id="client_email"><br>
 
-        <label for="date">Date:</label>
-        <label for="date">Date:</label>
-        <input type="date" name="date" id="date"><br>
+                    <label for="client_telephone">Telefon:</label>
+                    <input type="text" name="client_telephone" id="client_telephone"><br>
+                </div>
 
-        <label for="time">Time:</label>
-        <input type="time" name="time" id="time"><br>
+                <script>
+                    function toggleClientFields() {
+                        var toggle = document.getElementById('toggle_client').checked;
+                        document.getElementById('existing_client_fields').style.display = toggle ? 'block' : 'none';
+                        document.getElementById('new_client_fields').style.display = toggle ? 'none' : 'block';
+                    }
+                </script>
 
+                <label for="service_id">Usługa:</label>
+                <select name="service_id" id="service_id">
+                    <?php foreach ($tableServices as $service): ?>
+                        <option value="<?php echo $service['id']; ?>"><?php echo $service['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
 
-        <input type="submit" value="Create Order">
-    </form>
+                <label for="date">Data:</label>
+                <input type="date" name="date" id="date"><br>
+
+                <label for="time">Czas:</label>
+                <input type="time" name="time" id="time"><br>
+
+                <input type="submit" value="Utwórz zamówienie">
+            </form>
+        </div>
+    </main>
+
 </body>
 
 </html>

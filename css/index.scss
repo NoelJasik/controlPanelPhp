@@ -1,22 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-
+    font-family: "Roboto", sans-serif;
 }
 
 :root {
     --imperial-red: #e54b4bff;
     --atomic-tangerine: #ffa987ff;
     --seashell: #f7ebe8ff;
+    --seashell-2: #f0bcaf;
     --jet: #444140ff;
     --raisin-black: #1e1e24ff;
 }
 
 body {
-    background-color: var(--seashell);
+    background-color: var(--raisin-black);
     color: var(--raisin-black);
+}
+
+header {
+    background-color: var(--imperial-red);
+    color: var(--seashell);
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.btn {
+    background-color: var(--raisin-black);
+    color: var(--seashell);
+
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: var(--atomic-tangerine);
+    color: var(--raisin-black);
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+
+    padding: 1rem;
+    width: 100%;
+}
+
+.table-box {
+    background-color: var(--seashell);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    border-collapse: collapse;
+    height: 100%;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--jet);
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            text-align: left;
+            background-color: var(--atomic-tangerine);
+            padding: 0.25rem 0.5rem;
+            border-style: solid;
+            border-width: 1px;
+            border-color: var(--jet);
+        }
+        td {
+            padding: 0.25rem 0.5rem;
+            border-style: solid;
+            border-width: 1px;
+            border-color: var(--jet);
+        }
+    }
+
+    h2 {
+        background-color: var(--imperial-red);
+        color: var(--seashell);
+        padding: 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    main {
+        flex-direction: column;
+    }
 }
