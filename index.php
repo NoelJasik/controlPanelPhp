@@ -91,14 +91,14 @@ echo "Connected successfully";
             <th>ID</th>
             <th>Name</th>
             <th>Last name</th>
-            <th>Role ID</th>
+            <th>Role</th>
         </tr>
         <?php foreach ($tableEmployees as $row): ?>
             <tr>
                 <td><?php echo $row['id']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['last_name']; ?></td>
-                <td><?php echo $row['role_id']; ?></td>
+                <td><?php echo $tableRoles[$row['role_id'] - 1]['name'] ?></td>
             </tr>
         <?php endforeach; ?>
     </table>
