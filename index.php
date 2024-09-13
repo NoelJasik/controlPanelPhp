@@ -147,16 +147,21 @@ echo "Connected successfully";
             <th>Date</th>
             <th>Completed</th>
         </tr>
-        <?php foreach ($tableOrders as $row): ?>
+        <?php foreach ($tableOrders as $row): 
+            if($row['completed'] == 0) :
+            ?>
             <tr>
                 <td><?php echo $row['id']; ?></td>
                 <td><?php echo $row['employee_id']; ?></td>
                 <td><?php echo $row['client_id']; ?></td>
                 <td><?php echo $row['service_id']; ?></td>
                 <td><?php echo $row['date']; ?></td>
-                <td><?php echo $row['completed']; ?></td>
+                <form action="complete_order.php" method="post">
+                    <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+                    <td><input type="submit" value="Complete"></td>
+                </form>
             </tr>
-        <?php endforeach; ?>
+        <?php endif; endforeach; ?>
     </table>
 
     <h2>Create New Order</h2>
@@ -222,7 +227,7 @@ echo "Connected successfully";
 
         <label for="time">Time:</label>
         <input type="time" name="time" id="time"><br>
-        
+
 
         <input type="submit" value="Create Order">
     </form>
