@@ -48,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$toggle_client) {
         $name = $_POST['client_name'];
         $last_name = $_POST['client_last_name'];
-        $phone = $_POST['client_email'];
-        $email = $_POST['client_telephone'];
+        $phone = $_POST['client_telephone'];
+        $email = $_POST['client_email'];
         createClient($conn, $name, $last_name, $phone, $email);
         $client_id = $conn->insert_id;
         createOrder($conn, $employee_id, $client_id, $service_id, $date . ' ' . $time);
