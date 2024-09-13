@@ -25,8 +25,8 @@ function createOrder($conn, $employee_id, $client_id, $service_id, $date)
 
 function createClient($conn, $name, $last_name, $phone, $email)
 {
-    $stmt = $conn->prepare("INSERT INTO clients (name, phone, email) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name, $last_name, $phone, $email);
+    $stmt = $conn->prepare("INSERT INTO clients (name, last_name, email, telephone) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $last_name, $email, $phone);
 
     if ($stmt->execute()) {
         echo "New client created successfully";
@@ -42,11 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $client_id = $_POST['client_id'];
     $service_id = $_POST['service_id'];
     $date = $_POST['date'];
+    $time = $_POST['time'];
     $toggle_client = $_POST['toggle_client'];
 
-
-
-    createOrder($conn, $employee_id, $client_id, $service_id, $date);
+    if (!$toggle_client) {
+        $name = $_POST['client_name'];
+        $last_name = $_POST['client_last_name'];
+        $phone = $_POST['client_email'];
+        $email = $_POST['client_telephone'];
+        createClient($conn, $name, $last_name, $phone, $email);
+        $client_id = $conn->insert_id;
+        createOrder($conn, $employee_id, $client_id, $service_id, $date . ' ' . $time);
+    } else {
+        createOrder($conn, $employee_id, $client_id, $service_id, $date . ' ' . $time);
+    }
 }
 ?>
 <!DOCTYPE html>

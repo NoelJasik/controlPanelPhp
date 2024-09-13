@@ -217,7 +217,12 @@ echo "Connected successfully";
 
 
         <label for="date">Date:</label>
+        <label for="date">Date:</label>
         <input type="date" name="date" id="date"><br>
+
+        <label for="time">Time:</label>
+        <input type="time" name="time" id="time"><br>
+        
 
         <input type="submit" value="Create Order">
     </form>
