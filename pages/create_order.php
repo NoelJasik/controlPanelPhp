@@ -68,7 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <a href="index.php">Return</a>
+<a href="../index.php">Return</a>
+
 </body>
 
 </html>

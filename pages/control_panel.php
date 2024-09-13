@@ -56,9 +56,6 @@ while ($row = $resultServices->fetch_assoc()) {
 
 
 $conn->close();
-
-echo "Connected successfully";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,18 +64,22 @@ echo "Connected successfully";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Sterowania</title>
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
-    <a href="index.php">Sign out</a>
-    <h2>Clients</h2>
+    <header>
+    <a href="../index.php">Wyloguj się</a>
+    <h2>Panel Sterowania</h2>
+    </header>
+    <h2>Klienci</h2>
     <table border="1">
         <tr>
            
-            <th>Name</th>
-            <th>Last name</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
             <th>Email</th>
-            <th>Telephone</th>
+            <th>Nr. telefonu</th>
         </tr>
         <?php foreach ($tableClients as $row): ?>
             <tr>

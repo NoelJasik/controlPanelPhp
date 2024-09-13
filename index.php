@@ -6,10 +6,10 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="control_panel.php" method="post">
-        <label for="username">Username:</label><br>
+    <form action="pages/control_panel.php" method="post">
+        <label for="username">Nazwa użytkownika:</label><br>
         <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
+        <label for="password">Hasło:</label><br>
         <input type="password" id="password" name="password"><br><br>
         <input type="submit" value="Submit">
     </form>

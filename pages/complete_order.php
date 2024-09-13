@@ -8,13 +8,13 @@ $databaseName = "controlPanelPhp";
 $conn = mysqli_connect($servername, $username, $password, $databaseName);
 
 
-function removeClient($conn, $id, $table)
+function markAsCompleted($conn, $order_id)
 {
-    $stmt = $conn->prepare("DELETE FROM " . $table . " WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    
+    $stmt = $conn->prepare("UPDATE orders SET completed = 1 WHERE id = ?");
+    $stmt->bind_param("i", $order_id);
+
     if ($stmt->execute()) {
-        echo "Item ID: " . $id . " from " . $table . " removed successfully";
+        echo "Order completed successfully";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -24,9 +24,8 @@ function removeClient($conn, $id, $table)
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST['id'];
-    $table = $_POST['table'];
-    removeClient($conn, $id, $table);
+    $order_id = $_POST['order_id'];
+    markAsCompleted($conn, $order_id);
 }
 ?>
 <!DOCTYPE html>
@@ -39,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <a href="index.php">Return</a>
+    <a href="../index.php">Return</a>
 </body>
 
 </html>
