@@ -7,17 +7,17 @@ $databaseName = "controlPanelPhp";
 
 $conn = mysqli_connect($servername, $username, $password, $databaseName);
 
-
 function createOrder($conn, $employee_id, $client_id, $service_id, $date)
 {
+    global $isQuerySuccessfull;
     $completed = 0;
     $stmt = $conn->prepare("INSERT INTO orders (employee_id, client_id, service_id, date, completed) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("iiisi", $employee_id, $client_id, $service_id, $date, $completed);
 
     if ($stmt->execute()) {
-        echo "New order created successfully";
+        $isQuerySuccessfull = true;
     } else {
-        echo "Error: " . $stmt->error;
+        $isQuerySuccessfull = false;
     }
 
     $stmt->close();
@@ -25,13 +25,14 @@ function createOrder($conn, $employee_id, $client_id, $service_id, $date)
 
 function createClient($conn, $name, $last_name, $phone, $email)
 {
+    global $isQuerySuccessfull;
     $stmt = $conn->prepare("INSERT INTO clients (name, last_name, email, telephone) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $name, $last_name, $email, $phone);
 
     if ($stmt->execute()) {
-        echo "New client created successfully";
+        $isQuerySuccessfull = true;
     } else {
-        echo "Error: " . $stmt->error;
+        $isQuerySuccessfull = false;
     }
 
     $stmt->close();
@@ -57,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         createOrder($conn, $employee_id, $client_id, $service_id, $date . ' ' . $time);
     }
 }
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,12 +66,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel Sterowania</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/success.css">
 </head>
 
 <body>
-<a href="../index.php">Return</a>
-
+    <header>
+        <h1>Panel Sterowania - Sukcess </h1>
+    </header>
+    <div class="success-box">
+        <h2><?php 
+        if($isQuerySuccessfull){
+            echo "Nowe zamówienie zostało utworzone pomyślnie";
+        } else {
+            echo "Wystąpił błąd podczas tworzenia zamówienia";
+        }
+        ?></h2>
+        <a href="../index.php" class="btn">Ekran logowania</a>
+    </div>
+    <footer>
+        <p>© 2024 - Noel Jasik</p>
+    </footer>
 </body>
 
 </html>

@@ -64,11 +64,12 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Sterowania</title>
     <link rel="stylesheet" href="../css/index.css">
+
 </head>
 
 <body>
     <header>
-        <h1>Panel Sterowania</h1>
+        <h1>Panel Sterowania - <?php echo $username ?> </h1>
         <a class="btn" href="../index.php">Wyloguj się</a>
     </header>
     <main>
@@ -216,10 +217,10 @@ $conn->close();
 
 
                     <label for="date">Data:</label>
-                    <input type="date" name="date" id="date" class="btn">
+                    <input required type="date" name="date" id="date" class="btn">
 
                     <label for="time">Czas:</label>
-                    <input type="time" name="time" id="time" class="btn">
+                    <input required type="time" name="time" id="time" class="btn">
                 </div>
 
                 <div class="form-box">
@@ -264,6 +265,10 @@ $conn->close();
         </div>
 
     </main>
+    <footer>
+        <p>© 2024 - Noel Jasik</p>
+        
+    </footer>
     <script>
         function toggleClientFields() {
             var toggle = document.getElementById('toggle_client').checked;

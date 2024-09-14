@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;   
+}
+
+.success-box {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    background-color: var(--seashell);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    gap: 1rem;
+    h1 {
+        color: var(--raisin-black);
+    }
+    p {
+        color: var(--raisin-black);
+    }
+ 
+}
