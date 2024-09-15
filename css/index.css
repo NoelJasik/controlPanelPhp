@@ -20,6 +20,10 @@ body {
   color: var(--raisin-black);
   width: 100%;
   min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 
 header {
@@ -75,6 +79,7 @@ main {
 .table-box table {
   width: 100%;
   border-collapse: collapse;
+  overflow-y: scroll;
 }
 .table-box table th {
   text-align: left;
@@ -89,6 +94,8 @@ main {
   border-style: solid;
   border-width: 1px;
   border-color: var(--jet);
+  max-width: 100px;
+  overflow: hidden;
 }
 .table-box table td .btn {
   width: 100%;
@@ -156,5 +163,47 @@ footer {
 @media screen and (max-width: 1400px) {
   main {
     grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+@media screen and (max-width: 700px) {
+  header h1 {
+    font-size: 1rem;
+  }
+  header .btn {
+    font-size: 0.75rem;
+  }
+  main {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .table-box {
+    justify-content: center;
+  }
+  .table-box table {
+    width: 100%;
+    display: block;
+    overflow-x: scroll;
+  }
+  .table-box table th {
+    font-size: 0.75rem;
+  }
+  .table-box table td {
+    font-size: 0.75rem;
+  }
+  .table-box h2 {
+    font-size: 1rem;
+    width: 100%;
+  }
+  .create-order {
+    justify-content: center;
+  }
+  .create-order form {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }/*# sourceMappingURL=index.css.map */
