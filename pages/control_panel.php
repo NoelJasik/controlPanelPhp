@@ -132,7 +132,7 @@ $conn->close();
                     <th>Email</th>
                     <th>Nr. telefonu</th>
                     <th>Usuń</th>
-                    <th>Edytuj</th>
+                    <!-- <th>Edytuj</th> -->
                 </tr>
                 <?php foreach ($tableClients as $row): ?>
                     <tr>
@@ -145,11 +145,11 @@ $conn->close();
                             <input type="hidden" name="table" value="clients">
                             <td><input type="submit" value="Usuń" class="btn"></td>
                         </form>
-                        <form action="update_entry.php" method="post">
+                        <!-- <form action="update_entry.php" method="post">
                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                             <input type="hidden" name="table" value="clients">
                             <td><input type="submit" value="Edytuj" class="btn"></td>
-                        </form>
+                        </form> -->
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -166,7 +166,7 @@ $conn->close();
                     <th>Data</th>
                     <th>Zakończ</th>
                     <th>Usuń</th>
-                    <th>Edytuj</th>
+                    <!-- <th>Edytuj</th> -->
                 </tr>
                 <?php foreach ($tableOrders as $row):
                     if ($row['completed'] == 0) :
@@ -186,11 +186,11 @@ $conn->close();
                                 <input type="hidden" name="table" value="orders">
                                 <td><input type="submit" value="Usuń" class="btn"></td>
                             </form>
-                            <form action="update_entry.php" method="post">
+                            <!-- <form action="update_entry.php" method="post">
                                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                                 <input type="hidden" name="table" value="orders">
                                 <td><input type="submit" value="Edytuj" class="btn"></td>
-                            </form>
+                            </form> -->
                         </tr>
                 <?php endif;
                 endforeach; ?>
@@ -216,10 +216,10 @@ $conn->close();
                     </select>
 
 
-                    <label for="date">Data:</label>
+                    <label for="date">Podaj datę:</label>
                     <input required type="date" name="date" id="date" class="btn">
 
-                    <label for="time">Czas:</label>
+                    <label for="time">Podaj godzinę:</label>
                     <input required type="time" name="time" id="time" class="btn">
                 </div>
 
